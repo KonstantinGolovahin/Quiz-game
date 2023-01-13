@@ -62,9 +62,9 @@ li:nth-child(odd) {
   display: none; 
 }
 /* visibility + */
-/*.visible {
+.visible {
   display: visible;
-}*/
+}
 
 .start {
   text-align: center;

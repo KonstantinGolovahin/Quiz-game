@@ -3,7 +3,8 @@
 var timerDisplay = document.getElementById("time");
 var timeLeft = 20;
 
-//var displayNextQuestion = true;
+var toggleQuestionVisibility = document.getElementById("questions");
+var togglegamefinished = false;
 //console.log(quizQuestions.length);
 
 //display question
@@ -14,7 +15,7 @@ var textQuestion = document.getElementById("question-title")
 
 
 var numberQuestions = quizQuestions.length;
-var currentQuestion = 0
+//var currentQuestion = 0
 
 
 // render a question and list of possible answers
@@ -50,8 +51,15 @@ function displayQiuzQuestions(id) {
 
 
                         else {
-                                // penalise player by substructing seconds from a rmaining time
-                                timeLeft = timeLeft - 10;
+                                // penalise player by substructing seconds from a remaining time
+                                if(timeLeft>10) {
+                                        timeLeft = timeLeft - 10;
+                                }
+                                else {
+                                        timeLeft=0;   
+                                }
+                                
+                                
                                 displayNextQuestion(currentQuestion++);
                         }
 
@@ -94,14 +102,14 @@ function countdown() {
 
                 timeLeft--;
                 // text visible on a screen
-                timerDisplay.textContent = timeLeft + " seconds remaining";
+                timerDisplay.textContent = avoidNegative(timeLeft) + " second(s) remaining";
 
 
-                if (timeLeft <1) {
+                if (timeLeft <1 ||togglegamefinished==true) {
                         // Stops execution of action at set interval
                         clearInterval(timeInterval);
                         gameEnd();
-                        timerDisplay.textContent ="Time Finished"
+                        timerDisplay.textContent ="Game Finished " + avoidNegative(timeLeft) + " second(s) remaining"
 
                 }
 
@@ -109,7 +117,16 @@ function countdown() {
         }, 1000);
 }
 
-
+// small QOL function to avoid negative timer values
+function avoidNegative(num){
+        if(num<0){
+                num=0;
+        }
+        else{
+                num;
+        }
+        return num;
+}
 
 
 
@@ -118,9 +135,10 @@ function countdown() {
 var buttonStartQuiz = document.getElementById("start");
 buttonStartQuiz.addEventListener("click", function () {
 
-        //  displayQiuzQuestions(currentQuestion)
+       
+        resetGame();
 
-        displayNextQuestion()
+        displayNextQuestion();
 
 
 
@@ -134,17 +152,29 @@ function displayNextQuestion() {
         // clear prevoius answers
         document.getElementById("choices").innerHTML = "";
         // check if any questions remains
-        if (currentQuestion < numberQuestions) {
+        if (currentQuestion < numberQuestions && togglegamefinished != true) {
 
                 displayQiuzQuestions(currentQuestion)
-                console.log(currentQuestion)
+               // console.log(currentQuestion)
         }
         else {
+                
                 gameEnd()
         }
 }
 
 // ends current game
 function gameEnd() {
-        console.log("End")
+        //console.log("End")
+        togglegamefinished=true;
+        toggleQuestionVisibility.setAttribute("class","hide")
+
+}
+
+// rsset values before actual game start
+function resetGame(){
+        currentQuestion=0;
+        togglegamefinished=false;
+        timeLeft = 20;
+        toggleQuestionVisibility.setAttribute("class","visible")
 }
