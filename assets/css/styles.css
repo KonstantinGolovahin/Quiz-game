@@ -50,16 +50,20 @@ li {
 }
 
 li:nth-child(odd) {
-  background-color: #f3edfc;
+  background-color: lightgray;
 }
 
 .wrapper {
   margin: 100px auto 0 auto;
   max-width: 600px;
 }
-
+/* visibility - */
 .hide {
-  display: none;
+  display: none; 
+}
+/* visibility + */
+.visible {
+  display: visible;
 }
 
 .start {
