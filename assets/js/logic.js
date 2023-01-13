@@ -1,7 +1,5 @@
 //variables
-// current user answer
-var userAnswer ="";
- 
+var timerDisplay = document.getElementById("time");
 
 
 console.log(quizQuestions[1].options.length);
@@ -36,3 +34,31 @@ buttonComplete.addEventListener ("click", function() {
 
 }
 
+
+
+
+// timer behaviour
+function countdown() {
+        var timeLeft = 5;
+      
+      
+        var timeInterval = setInterval(function () {
+        
+      timeLeft--;
+      // text visible on a screen
+      timerDisplay.textContent=timeLeft+" seconds remaining";
+      
+      
+      if(timeLeft === 0) {
+        // Stops execution of action at set interval
+        clearInterval(timeInterval);
+        // display message after timer = 0 seconds
+       // displayMessage();
+       alert("Time Finished")
+        
+      }
+      
+          // timer step in milliseconds
+        },1000);
+      }
+//countdown();
