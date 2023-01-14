@@ -12,7 +12,7 @@ var numberQuestions = quizQuestions.length;
 var userFinalScore;
 
 // data storage array
-var storedData =[];
+var storedData = [];
 
 // toggle visibility for current game div
 var toggleQuestionVisibility = document.getElementById("questions");
@@ -30,7 +30,7 @@ var textIsCorrect = document.getElementById("validate-answer")
 var userFinalScoreDisplay = document.getElementById("final-score");
 
 //User Initials displayed
-var userInitials=  document.querySelector("#initials");
+var userInitials = document.querySelector("#initials");
 
 /////////////////////////////functions///////////////////////
 
@@ -41,7 +41,7 @@ function displayQiuzQuestions(id) {
         textQuestion.textContent = quizQuestions[id].question;
         // store correct answer for a current question
         var textAnswer = quizQuestions[id].answer
-        
+
         // display pissible answers as a new list
         for (i = 0; i < quizQuestions[id].options.length; i++) {
                 var ul = document.getElementById("choices");
@@ -54,25 +54,25 @@ function displayQiuzQuestions(id) {
                 var buttonComplete = document.createElement("button");
                 buttonComplete.textContent = "Select this answer"
                 li.appendChild(buttonComplete)
-          
+
                 // adds event listener to a button
                 buttonComplete.addEventListener("click", function () {
                         // check for correct answer
                         if (this.parentElement.textContent.startsWith(textAnswer)) {
-                                textIsCorrect.textContent="Previous answer correct";
+                                textIsCorrect.textContent = "Previous answer correct";
                                 displayNextQuestion(currentQuestion++);
-                            }
+                        }
                         else {
-                                textIsCorrect.textContent="Previous answer wrong";
-                                
+                                textIsCorrect.textContent = "Previous answer wrong";
+
                                 // penalise player by substructing seconds from a remaining time
-                                if(timeLeft>10) {
+                                if (timeLeft > 10) {
                                         timeLeft = timeLeft - 10;
                                 }
                                 else {
-                                        timeLeft=0;   
+                                        timeLeft = 0;
                                 }
-                             // display next question
+                                // display next question
                                 displayNextQuestion(currentQuestion++);
                         }
 
@@ -92,11 +92,11 @@ function countdown() {
                 // text visible on a screen
                 timerDisplay.textContent = avoidNegative(timeLeft) + " second(s) remaining";
 
-                if (timeLeft <1 ||togglegamefinished==true) {
+                if (timeLeft < 1 || togglegamefinished == true) {
                         // Stops execution of action at set interval
                         clearInterval(timeInterval);
                         gameEnd();
-                        timerDisplay.textContent ="Game Finished " + avoidNegative(timeLeft) + " second(s) remaining"
+                        timerDisplay.textContent = "Game Finished " + avoidNegative(timeLeft) + " second(s) remaining"
                 }
 
                 // timer step in milliseconds
@@ -104,11 +104,11 @@ function countdown() {
 }
 
 // small QOL function to avoid negative timer values
-function avoidNegative(num){
-        if(num<0){
-                num=0;
+function avoidNegative(num) {
+        if (num < 0) {
+                num = 0;
         }
-        else{
+        else {
                 num;
         }
         return num;
@@ -122,58 +122,57 @@ function displayNextQuestion() {
         if (currentQuestion < numberQuestions && togglegamefinished != true) {
 
                 displayQiuzQuestions(currentQuestion)
-               // console.log(currentQuestion)
         }
         else {
-                
+
                 gameEnd()
         }
 }
 
 // ends current game
 function gameEnd() {
-        togglegamefinished=true;
-        toggleQuestionVisibility.setAttribute("class","hide")
-        toggleScoreVisibility.setAttribute("class","visible")
-        userFinalScoreDisplay.innerHTML=avoidNegative(timeLeft);
-        userFinalScore=avoidNegative(timeLeft);
-        
+        togglegamefinished = true;
+        toggleQuestionVisibility.setAttribute("class", "hide")
+        toggleScoreVisibility.setAttribute("class", "visible")
+        userFinalScoreDisplay.innerHTML = avoidNegative(timeLeft);
+        userFinalScore = avoidNegative(timeLeft);
+
 }
 
 // reset values before actual game start
-function resetGame(){
-        currentQuestion=0;
-        togglegamefinished=false;
-        timeLeft = 20;
-        textIsCorrect.textContent="";
-        toggleQuestionVisibility.setAttribute("class","visible")
-        userInitials.value="";
-        userFinalScore=0;
-        
+function resetGame() {
+        currentQuestion = 0;
+        togglegamefinished = false;
+        timeLeft = 60;
+        textIsCorrect.textContent = "";
+        toggleQuestionVisibility.setAttribute("class", "visible")
+        userInitials.value = "";
+        userFinalScore = 0;
+
 }
 
 // add user score to a local storage. First required to read from storage to avoid existing data replacement storage after page reload
 function addToLocalStorage(savedData) {
-      
+
         // attempt to read from local storage
-        storedData= getHighscores(storedData);
-       // update existing save with a new record
+        storedData = getHighscores(storedData);
+        // update existing save with a new record
         storedData.push(savedData);
         // write updated save to local storage
         localStorage.setItem("userSave", JSON.stringify(storedData));
-    }
+}
 
 // read user saves from local storage to an array
-    function getHighscores(arr){
-            if(localStorage.getItem("userSave") === null) {
-                arr= [];
-                
+function getHighscores(arr) {
+        if (localStorage.getItem("userSave") === null) {
+                arr = [];
+
         } else {
-                arr= JSON.parse(localStorage.getItem("userSave"));
-                
+                arr = JSON.parse(localStorage.getItem("userSave"));
+
         }
         return arr;
-    
+
 }
 ////////////////////// buttons///////////////////////
 
@@ -181,7 +180,7 @@ function addToLocalStorage(savedData) {
 var buttonStartQuiz = document.getElementById("start");
 buttonStartQuiz.addEventListener("click", function () {
 
-       
+
         resetGame();
         displayNextQuestion();
         countdown();
@@ -192,28 +191,21 @@ var buttonSubmitResults = document.getElementById("submit");
 buttonSubmitResults.addEventListener("click", function () {
 
         // avoid fully empty input
-       if(userInitials.value===""){
-        userInitials.value="Anonymous"
-       }
-// hide this section
-       if(toggleScoreVisibility.className ==="visible"){
-        toggleScoreVisibility.setAttribute("class","hide")
-  }
+        if (userInitials.value === "") {
+                userInitials.value = "Anonymous"
+        }
+        // hide this section
+        if (toggleScoreVisibility.className === "visible") {
+                toggleScoreVisibility.setAttribute("class", "hide")
+        }
 
-  
-// user data object 
-let userSave = {
-        name : userInitials.value,
-        score : userFinalScore,
-        
-      }
-      // save data to local storage
-      addToLocalStorage(userSave)
+
+        // user data object 
+        let userSave = {
+                name: userInitials.value,
+                score: userFinalScore,
+
+        }
+        // save data to local storage
+        addToLocalStorage(userSave)
 })
-
-
-
-
-
-
-

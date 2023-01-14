@@ -17,13 +17,15 @@ function getHighscores(arr) {
 
 // display highscores if there are any
 function renderHighScores(arr) {
-        
+    // sort highscores desc (idea from https://www.scaler.com/topics/javascript-sort-an-array-of-objects/)
+    let sortedArr = arr.sort((p1, p2) => (p1.score < p2.score) ? 1 : (p1.score > p2.score) ? -1 : 0);
+
     var ol = document.getElementById("highscores");
-    if (arr.length>0){
+    if (sortedArr.length>0){
         ol.innerHTML = "";
-        for (i = 0; i < arr.length; i++) {
+        for (i = 0; i < sortedArr.length; i++) {
            var li = document.createElement("li");
-           li.appendChild(document.createTextNode(arr[i].name + "  " + arr[i].score));
+           li.appendChild(document.createTextNode(sortedArr[i].name + "  " + sortedArr[i].score));
            ol.appendChild(li);
        }
 
@@ -42,8 +44,9 @@ var buttonClearHighScore = document.getElementById("clear");
 buttonClearHighScore.addEventListener("click", function () {
 
     localStorage.clear();
-    renderHighScores(highscoreValue);
+    window.location.reload();
     alert("All records cleared");
+   
 })
 
 
