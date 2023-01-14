@@ -167,11 +167,10 @@ function addToLocalStorage(savedData) {
     function getHighscores(arr){
             if(localStorage.getItem("userSave") === null) {
                 arr= [];
-                alert("empty array")
+                
         } else {
                 arr= JSON.parse(localStorage.getItem("userSave"));
-                alert("full array " +arr)
-                console.log(arr)
+                
         }
         return arr;
     
@@ -211,3 +210,10 @@ let userSave = {
       // save data to local storage
       addToLocalStorage(userSave)
 })
+
+
+
+
+
+
+

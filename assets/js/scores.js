@@ -1,32 +1,40 @@
-
-// idea from https://stackoverflow.com/questions/50975273/multiple-items-local-storage-javascript
 // new array for values from a local storage
-let highscoreValue = getHighscores(highscoreValue);
+let highscoreValue = [];
+ highscoreValue = getHighscores(highscoreValue);
 
-// retrieve values if any exists
+ // retrieve values if any exists
+ // idea from https://stackoverflow.com/questions/50975273/multiple-items-local-storage-javascript
 function getHighscores(arr) {
     if (localStorage.getItem("userSave") === null) {
         arr = [];
-        alert("empty array")
+        
     } else {
         arr = JSON.parse(localStorage.getItem("userSave"));
-        alert("full array " + arr)
-        console.log(arr)
+        
     }
     return arr;
 }
 
-
-// display highscores
-function renderHighScores() {
-
+// display highscores if there are any
+function renderHighScores(arr) {
+        
     var ol = document.getElementById("highscores");
-    ol.innerHTML = ""
-     for (i = 0; i < highscoreValue.length; i++) {
-        var li = document.createElement("li");
-        li.appendChild(document.createTextNode(highscoreValue[i].name + "  " + highscoreValue[i].score));
-        ol.appendChild(li);
+    if (arr.length>0){
+        ol.innerHTML = "";
+        for (i = 0; i < arr.length; i++) {
+           var li = document.createElement("li");
+           li.appendChild(document.createTextNode(arr[i].name + "  " + arr[i].score));
+           ol.appendChild(li);
+       }
+
     }
+    else {
+        ol.innerHTML = ""
+        var li = document.createElement("li");
+           li.appendChild(document.createTextNode("No highscores saved yet"));
+           ol.appendChild(li);
+    }
+    
 }
 
 // clear local storage
@@ -34,8 +42,10 @@ var buttonClearHighScore = document.getElementById("clear");
 buttonClearHighScore.addEventListener("click", function () {
 
     localStorage.clear();
+    renderHighScores(highscoreValue);
+    alert("All records cleared");
 })
 
 
 // display highscores on load
-renderHighScores();
+renderHighScores(highscoreValue);
