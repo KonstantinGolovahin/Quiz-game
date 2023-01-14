@@ -5,10 +5,17 @@ var timeLeft;
 
 // check if game is finished
 var togglegamefinished = false;
+// overall amount of questions to display
+var numberQuestions = quizQuestions.length;
+
+// User final score value
+var userFinalScore;
+
+// data storage array
+var storedData =[];
 
 // toggle visibility for current game div
 var toggleQuestionVisibility = document.getElementById("questions");
-
 
 // toggle visibility for game results entering div
 var toggleScoreVisibility = document.getElementById("end-screen");
@@ -19,31 +26,11 @@ var textQuestion = document.getElementById("question-title")
 // define quiz answer correctness display place
 var textIsCorrect = document.getElementById("validate-answer")
 
-
-// overall amount of questions to display
-var numberQuestions = quizQuestions.length;
-
 // User final score displayed
 var userFinalScoreDisplay = document.getElementById("final-score");
-// User final score value
-var userFinalScore;
-
 
 //User Initials displayed
 var userInitials=  document.querySelector("#initials");
-
-
-// data storage array
-var storedData =[];
-
-//localStorage.clear();
-
-
-
-
-let newObject = window.localStorage.getItem("userSave");
-//console.log(JSON.parse(newObject));
-
 
 /////////////////////////////functions///////////////////////
 
@@ -85,7 +72,7 @@ function displayQiuzQuestions(id) {
                                 else {
                                         timeLeft=0;   
                                 }
-                             
+                             // display next question
                                 displayNextQuestion(currentQuestion++);
                         }
 
@@ -127,19 +114,6 @@ function avoidNegative(num){
         return num;
 }
 
-
-
-// quiz starts on a button click
-var buttonStartQuiz = document.getElementById("start");
-buttonStartQuiz.addEventListener("click", function () {
-
-       
-        resetGame();
-        displayNextQuestion();
-        countdown();
-})
-
-
 //displays new question
 function displayNextQuestion() {
         // clear prevoius answers
@@ -158,7 +132,6 @@ function displayNextQuestion() {
 
 // ends current game
 function gameEnd() {
-        //console.log("End")
         togglegamefinished=true;
         toggleQuestionVisibility.setAttribute("class","hide")
         toggleScoreVisibility.setAttribute("class","visible")
@@ -179,13 +152,49 @@ function resetGame(){
         
 }
 
+// add user score to a local storage. First required to read from storage to avoid existing data replacement storage after page reload
+function addToLocalStorage(savedData) {
+      
+        // attempt to read from local storage
+        storedData= getHighscores(storedData);
+       // update existing save with a new record
+        storedData.push(savedData);
+        // write updated save to local storage
+        localStorage.setItem("userSave", JSON.stringify(storedData));
+    }
+
+// read user saves from local storage to an array
+    function getHighscores(arr){
+            if(localStorage.getItem("userSave") === null) {
+                arr= [];
+                alert("empty array")
+        } else {
+                arr= JSON.parse(localStorage.getItem("userSave"));
+                alert("full array " +arr)
+                console.log(arr)
+        }
+        return arr;
+    
+}
+////////////////////// buttons///////////////////////
+
+// quiz starts on a button click
+var buttonStartQuiz = document.getElementById("start");
+buttonStartQuiz.addEventListener("click", function () {
+
+       
+        resetGame();
+        displayNextQuestion();
+        countdown();
+})
+
 // save user results ot a local storage
 var buttonSubmitResults = document.getElementById("submit");
 buttonSubmitResults.addEventListener("click", function () {
 
         // avoid fully empty input
        if(userInitials.value===""){
-        userInitials.value="Anonimous"
+        userInitials.value="Anonymous"
        }
 // hide this section
        if(toggleScoreVisibility.className ==="visible"){
@@ -194,37 +203,11 @@ buttonSubmitResults.addEventListener("click", function () {
 
   
 // user data object 
-const userSave = {
+let userSave = {
         name : userInitials.value,
         score : userFinalScore,
         
       }
       // save data to local storage
-    
-     addToLocalStorage(userSave)
-
-       // console.log(userSave.name)
+      addToLocalStorage(userSave)
 })
-
-
-// add user score to a local storage
-function addToLocalStorage(savedData) {
-        storedData.push(savedData);
-        localStorage.setItem("userSave", JSON.stringify(storedData));
-    }
-
-
-
-
-
-
-
-
-
-
-   
-   // let newbject = window.localStorage.getItem("userSave");
-//console.log(JSON.parse(newbject));
-//newbject.forEach()
-//console.log(newbject.name + newbject.userFinalScore)
-
