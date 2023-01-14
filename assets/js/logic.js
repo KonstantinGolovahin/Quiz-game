@@ -42,7 +42,7 @@ var storedData =[];
 
 
 let newObject = window.localStorage.getItem("userSave");
-console.log(JSON.parse(newObject));
+//console.log(JSON.parse(newObject));
 
 
 /////////////////////////////functions///////////////////////
@@ -212,3 +212,19 @@ function addToLocalStorage(savedData) {
         storedData.push(savedData);
         localStorage.setItem("userSave", JSON.stringify(storedData));
     }
+
+
+
+
+
+
+
+
+
+
+   
+   // let newbject = window.localStorage.getItem("userSave");
+//console.log(JSON.parse(newbject));
+//newbject.forEach()
+//console.log(newbject.name + newbject.userFinalScore)
+
