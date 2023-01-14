@@ -1,22 +1,51 @@
-//variables
+///////////////////////////// global variables///////////////////////
 // timer
 var timerDisplay = document.getElementById("time");
-var timeLeft = 20;
+var timeLeft;
 
-var toggleQuestionVisibility = document.getElementById("questions");
+// check if game is finished
 var togglegamefinished = false;
-//console.log(quizQuestions.length);
 
-//display question
-// add a loop through all questions
+// toggle visibility for current game div
+var toggleQuestionVisibility = document.getElementById("questions");
+
+
+// toggle visibility for game results entering div
+var toggleScoreVisibility = document.getElementById("end-screen");
+
+// define quiz question display place
 var textQuestion = document.getElementById("question-title")
-//console.log(quizQuestions.length)
+
+// define quiz answer correctness display place
+var textIsCorrect = document.getElementById("validate-answer")
 
 
-
+// overall amount of questions to display
 var numberQuestions = quizQuestions.length;
-//var currentQuestion = 0
 
+// User final score displayed
+var userFinalScoreDisplay = document.getElementById("final-score");
+// User final score value
+var userFinalScore;
+
+
+//User Initials displayed
+var userInitials=  document.querySelector("#initials");
+
+
+// data storage array
+var storedData =[];
+
+//localStorage.clear();
+
+
+
+
+let newObject = window.localStorage.getItem("userSave");
+console.log(JSON.parse(newObject));
+
+
+/////////////////////////////functions///////////////////////
 
 // render a question and list of possible answers
 function displayQiuzQuestions(id) {
@@ -43,14 +72,12 @@ function displayQiuzQuestions(id) {
                 buttonComplete.addEventListener("click", function () {
                         // check for correct answer
                         if (this.parentElement.textContent.startsWith(textAnswer)) {
+                                textIsCorrect.textContent="Previous answer correct";
                                 displayNextQuestion(currentQuestion++);
-                               
-                        }
-
-
-
-
+                            }
                         else {
+                                textIsCorrect.textContent="Previous answer wrong";
+                                
                                 // penalise player by substructing seconds from a remaining time
                                 if(timeLeft>10) {
                                         timeLeft = timeLeft - 10;
@@ -58,40 +85,14 @@ function displayQiuzQuestions(id) {
                                 else {
                                         timeLeft=0;   
                                 }
-                                
-                                
+                             
                                 displayNextQuestion(currentQuestion++);
                         }
 
                 })
         }
 
-
-
-
-        // console.log(numberQuestions)
-
-
-
-
-
-
-
-
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -104,13 +105,11 @@ function countdown() {
                 // text visible on a screen
                 timerDisplay.textContent = avoidNegative(timeLeft) + " second(s) remaining";
 
-
                 if (timeLeft <1 ||togglegamefinished==true) {
                         // Stops execution of action at set interval
                         clearInterval(timeInterval);
                         gameEnd();
                         timerDisplay.textContent ="Game Finished " + avoidNegative(timeLeft) + " second(s) remaining"
-
                 }
 
                 // timer step in milliseconds
@@ -130,19 +129,13 @@ function avoidNegative(num){
 
 
 
-
 // quiz starts on a button click
 var buttonStartQuiz = document.getElementById("start");
 buttonStartQuiz.addEventListener("click", function () {
 
        
         resetGame();
-
         displayNextQuestion();
-
-
-
-
         countdown();
 })
 
@@ -168,13 +161,54 @@ function gameEnd() {
         //console.log("End")
         togglegamefinished=true;
         toggleQuestionVisibility.setAttribute("class","hide")
-
+        toggleScoreVisibility.setAttribute("class","visible")
+        userFinalScoreDisplay.innerHTML=avoidNegative(timeLeft);
+        userFinalScore=avoidNegative(timeLeft);
+        
 }
 
-// rsset values before actual game start
+// reset values before actual game start
 function resetGame(){
         currentQuestion=0;
         togglegamefinished=false;
         timeLeft = 20;
+        textIsCorrect.textContent="";
         toggleQuestionVisibility.setAttribute("class","visible")
+        userInitials.value="";
+        userFinalScore=0;
+        
 }
+
+// save user results ot a local storage
+var buttonSubmitResults = document.getElementById("submit");
+buttonSubmitResults.addEventListener("click", function () {
+
+        // avoid fully empty input
+       if(userInitials.value===""){
+        userInitials.value="Anonimous"
+       }
+// hide this section
+       if(toggleScoreVisibility.className ==="visible"){
+        toggleScoreVisibility.setAttribute("class","hide")
+  }
+
+  
+// user data object 
+const userSave = {
+        name : userInitials.value,
+        score : userFinalScore,
+        
+      }
+      // save data to local storage
+    
+     addToLocalStorage(userSave)
+
+       // console.log(userSave.name)
+})
+
+
+// add user score to a local storage
+function addToLocalStorage(savedData) {
+        storedData.push(savedData);
+        localStorage.setItem("userSave", JSON.stringify(storedData));
+    }

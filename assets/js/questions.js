@@ -1,11 +1,16 @@
 
  var quizQuestions = [{
   question: "Question1",
-  options:  ["Option1","Option2","Option3","Option4"],
-  answer: "Option1",
+  options:  ["Correct","Incorrect","Incorrect","Incorrect"],
+  answer: "Correct",
   
 }, {
 question: "Question2",
-options:  ["Option1","Option2","Option3","Option4",],
-answer: "Option1",
-},  ];
+options:  ["Incorrect","Correct","Incorrect","Incorrect",],
+answer: "Correct",
+},  
+{
+  question: "Question3",
+  options:  ["Incorrect","Incorrect","Correct","Incorrect",],
+  answer: "Correct",
+  },];
