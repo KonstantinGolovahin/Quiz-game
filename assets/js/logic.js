@@ -61,11 +61,11 @@ function displayQiuzQuestions(id) {
                         if (this.parentElement.textContent.startsWith(textAnswer)) {
                                 textIsCorrect.textContent = "Previous answer correct";
                                 displayNextQuestion(currentQuestion++);
-                                
+
                         }
                         else {
                                 textIsCorrect.textContent = "Previous answer wrong";
-                               
+
                                 // penalise player by substructing seconds from a remaining time
                                 if (timeLeft > 10) {
                                         timeLeft = timeLeft - 10;
@@ -92,6 +92,14 @@ function countdown() {
                 timeLeft--;
                 // text visible on a screen
                 timerDisplay.textContent = avoidNegative(timeLeft) + " second(s) remaining";
+                // colour timer as a warning if time is less than 20 seconds
+                if (timeLeft < 20 && timeLeft >0) {
+                        timerDisplay.setAttribute("style", "color:red")
+                }
+                else {
+                        timerDisplay.setAttribute("style", "color:black")
+                }
+
 
                 if (timeLeft < 1 || togglegamefinished == true) {
                         // Stops execution of action at set interval
