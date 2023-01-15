@@ -5,7 +5,7 @@ var quizQuestions = [{
   answer: "A container for storing data",
 
 }, {
-  question: "Can anyone comment a line of code in Javascript?",
+  question: "Can someone comment a line of code in Javascript editor?",
   options: ["Yes", "No", "Sometimes", "None of the above",],
   answer: "Yes",
 },
