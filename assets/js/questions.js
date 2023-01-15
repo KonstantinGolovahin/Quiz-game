@@ -2,7 +2,7 @@
 var quizQuestions = [{
   question: "What is a variable in Javascript?",
   options: ["A container for storing data", "Function", "Object", "All the above"],
-  answer: "Containers for storing data",
+  answer: "A container for storing data",
 
 }, {
   question: "Can anyone comment a line of code in Javascript?",

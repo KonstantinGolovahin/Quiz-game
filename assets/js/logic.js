@@ -61,10 +61,11 @@ function displayQiuzQuestions(id) {
                         if (this.parentElement.textContent.startsWith(textAnswer)) {
                                 textIsCorrect.textContent = "Previous answer correct";
                                 displayNextQuestion(currentQuestion++);
+                                
                         }
                         else {
                                 textIsCorrect.textContent = "Previous answer wrong";
-
+                               
                                 // penalise player by substructing seconds from a remaining time
                                 if (timeLeft > 10) {
                                         timeLeft = timeLeft - 10;
