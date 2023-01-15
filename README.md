@@ -5,7 +5,6 @@
 This website is a timed coding quiz with multiple-choice questions related to Javascript. The user can start a quiz and answer a series of questions within a time limit. Each incorrect answer will penalise user for 10 seconds. There is an option to save progress on a local PC. If the user does not want to enter his initials, the game will record him as anonymous.
 
 
-
 ## Screenshot 
 
 ![Quiz Game](./assets/image/Screenshot.png?raw=true "Quiz Game")

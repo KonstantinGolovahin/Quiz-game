@@ -1,7 +1,8 @@
 ///////////////////////////// global variables///////////////////////
 // timer
 var timerDisplay = document.getElementById("time");
-var timeLeft;
+var timeLeft =60;
+var timePenalty =10;
 
 // check if game is finished
 var togglegamefinished = false;
@@ -14,11 +15,19 @@ var userFinalScore;
 // data storage array
 var storedData = [];
 
+// Quiz rules
+var textQuizConditions = "Try to answer the following code-related " +numberQuestions +
+ " questions within the time limit of " + timeLeft +
+ " seconds. Keep in mind that incorrect answers will penalize your score/time by " + timePenalty+ " seconds!"
+
 // toggle visibility for current game div
 var toggleQuestionVisibility = document.getElementById("questions");
 
 // toggle visibility for game results entering div
 var toggleScoreVisibility = document.getElementById("end-screen");
+
+// define quiz rules output place
+var textQuizOutput = document.getElementById("quiz-description");
 
 // define quiz question display place
 var textQuestion = document.getElementById("question-title")
@@ -67,8 +76,8 @@ function displayQiuzQuestions(id) {
                                 textIsCorrect.textContent = "Previous answer wrong";
 
                                 // penalise player by substructing seconds from a remaining time
-                                if (timeLeft > 10) {
-                                        timeLeft = timeLeft - 10;
+                                if (timeLeft > timePenalty) {
+                                        timeLeft = timeLeft - timePenalty;
                                 }
                                 else {
                                         timeLeft = 0;
@@ -105,7 +114,7 @@ function countdown() {
                         // Stops execution of action at set interval
                         clearInterval(timeInterval);
                         gameEnd();
-                        timerDisplay.textContent = "Game Finished " + avoidNegative(timeLeft) + " second(s) remaining"
+                        timerDisplay.textContent = "Game Finished " + avoidNegative(timeLeft) + " second(s) left"
                 }
 
                 // timer step in milliseconds
@@ -218,3 +227,5 @@ buttonSubmitResults.addEventListener("click", function () {
         // save data to local storage
         addToLocalStorage(userSave)
 })
+// display quiz rules once
+textQuizOutput.textContent=textQuizConditions;
